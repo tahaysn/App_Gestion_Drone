@@ -1,0 +1,83 @@
+<LoginScreen>:
+    name: "login"
+
+    canvas.before:
+        Color:
+            rgba: 0.05, 0.1, 0.2, 1  # Fond bleu marine
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    MDFloatLayout:
+
+        MDCard:
+            size_hint: 0.9, 0.75
+            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+            md_bg_color: 0.1, 0.15, 0.25, 0.95  # Effet verre foncé
+            elevation: 20
+            radius: [25, 25, 25, 25]
+            padding: dp(25)
+            orientation: "vertical"
+            spacing: dp(25)
+
+            MDLabel:
+                text: "Bienvenue"
+                halign: "center"
+                font_style: "H4"
+                theme_text_color: "Custom"
+                text_color: 1, 1, 1, 1
+                size_hint_y: None
+                height: self.texture_size[1]
+
+                #Image:
+                    #source: "app/assets/images/logo.png"
+                    #size_hint: None, None
+                    #size: dp(100), dp(100)
+                    #pos_hint: {"center_x": 0.5}
+
+            MDTextField:
+                id: username
+                hint_text: "Nom d'utilisateur"
+                icon_right: "account"
+                mode: "rectangle"
+                radius: [10, 10, 10, 10]
+                size_hint_y: None
+                height: dp(50)
+                line_color_normal: 0.5, 0.7, 1, 1
+                text_color: 1, 1, 1, 1
+                icon_right_color: 1, 1, 1, 1
+                hint_text_color_normal: .8, .8, .8, 1
+
+            MDTextField:
+                id: password
+                hint_text: "Mot de passe"
+                password: True
+                icon_right: "lock"
+                mode: "rectangle"
+                radius: [10, 10, 10, 10]
+                size_hint_y: None
+                height: dp(50)
+                line_color_normal: 0.5, 0.7, 1, 1
+                text_color: 1, 1, 1, 1
+                icon_right_color: 1, 1, 1, 1
+                hint_text_color_normal: .8, .8, .8, 1
+
+            MDRaisedButton:
+                text: "Connexion"
+                pos_hint: {"center_x": 0.5}
+                size_hint_x: 0.7
+                height: dp(45)
+                md_bg_color: 0.2, 0.6, 1, 1
+                text_color: 1, 1, 1, 1
+                radius: [12, 12, 12, 12]
+                on_release: root.do_login()
+
+            MDTextButton:
+                id: create_account_button
+                text: "Créer un compte"
+                pos_hint: {"center_x": 0.5}
+                theme_text_color: "Custom"
+                text_color: 1, 1, 1, 1
+                on_release: app.root.current = "register"
+                opacity: 0
+                disabled: True

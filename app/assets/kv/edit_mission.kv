@@ -1,0 +1,327 @@
+<EditMissionScreen>:
+    name: "edit_mission"
+
+    canvas.before:
+        Color:
+            rgba: 0.05, 0.1, 0.2, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    MDBoxLayout:
+        orientation: "vertical"
+
+        MDTopAppBar:
+            title: "Modifier la mission"
+            left_action_items: [["arrow-left", lambda x: root.go_back()]]
+            elevation: 4
+            md_bg_color: 0.05, 0.1, 0.2, 1
+            specific_text_color: 1, 1, 1, 1
+            height: dp(48)
+            size_hint_y: None
+
+        ScrollView:
+            MDBoxLayout:
+                orientation: "vertical"
+                padding: dp(20)
+                spacing: dp(15)
+                size_hint_y: None
+                height: self.minimum_height
+
+                # ===== SECTION INFOS MISSION =====
+                MDLabel:
+                    text: "Informations mission"
+                    theme_text_color: "Custom"
+                    text_color: 1, 1, 1, 1
+                    font_style: "H6"
+                    bold: True
+
+                MDTextField:
+                    id: date_field
+                    hint_text: "Date"
+                    mode: "rectangle"
+                    on_focus: if self.focus: root.show_date_picker("date_field")
+                    theme_text_color: "Custom"
+                    text_color_normal: 1, 1, 1, 1
+                    text_color_focus: 1, 1, 1, 1
+                    hint_text_color_normal: 0.8, 0.8, 0.8, 1
+                    line_color_normal: 0.6, 0.6, 0.6, 1
+                    line_color_focus: 1, 1, 1, 1
+
+                MDTextField:
+                    id: client
+                    hint_text: "Nom du client"
+                    mode: "rectangle"
+                    theme_text_color: "Custom"
+                    text_color_normal: 1, 1, 1, 1
+                    text_color_focus: 1, 1, 1, 1
+                    hint_text_color_normal: 0.8, 0.8, 0.8, 1
+                    line_color_normal: 0.6, 0.6, 0.6, 1
+                    line_color_focus: 1, 1, 1, 1
+
+                MDTextField:
+                    id: numero_client
+                    hint_text: "Numéro du client"
+                    mode: "rectangle"
+                    theme_text_color: "Custom"
+                    text_color_normal: 1, 1, 1, 1
+                    text_color_focus: 1, 1, 1, 1
+                    hint_text_color_normal: 0.8, 0.8, 0.8, 1
+                    line_color_normal: 0.6, 0.6, 0.6, 1
+                    line_color_focus: 1, 1, 1, 1
+
+                MDTextField:
+                    id: client_telephone
+                    hint_text: "Téléphone du client"
+                    mode: "rectangle"
+                    theme_text_color: "Custom"
+                    text_color_normal: 1, 1, 1, 1
+                    text_color_focus: 1, 1, 1, 1
+                    hint_text_color_normal: 0.8, 0.8, 0.8, 1
+                    line_color_normal: 0.6, 0.6, 0.6, 1
+                    line_color_focus: 1, 1, 1, 1
+
+                MDTextField:
+                    id: drone
+                    hint_text: "Drone"
+                    mode: "rectangle"
+                    theme_text_color: "Custom"
+                    text_color_normal: 1, 1, 1, 1
+                    text_color_focus: 1, 1, 1, 1
+                    hint_text_color_normal: 0.8, 0.8, 0.8, 1
+                    line_color_normal: 0.6, 0.6, 0.6, 1
+                    line_color_focus: 1, 1, 1, 1
+
+                MDTextField:
+                    id: taux_application
+                    hint_text: "Taux d'application (L/ha)"
+                    mode: "rectangle"
+                    input_filter: "float"
+                    theme_text_color: "Custom"
+                    text_color_normal: 1, 1, 1, 1
+                    text_color_focus: 1, 1, 1, 1
+                    hint_text_color_normal: 0.8, 0.8, 0.8, 1
+                    line_color_normal: 0.6, 0.6, 0.6, 1
+                    line_color_focus: 1, 1, 1, 1
+
+                MDTextField:
+                    id: superficie
+                    hint_text: "Superficie estimée (ha)"
+                    mode: "rectangle"
+                    input_filter: "float"
+                    theme_text_color: "Custom"
+                    text_color_normal: 1, 1, 1, 1
+                    text_color_focus: 1, 1, 1, 1
+                    hint_text_color_normal: 0.8, 0.8, 0.8, 1
+                    line_color_normal: 0.6, 0.6, 0.6, 1
+                    line_color_focus: 1, 1, 1, 1
+
+                MDTextField:
+                    id: superficie_reelle
+                    hint_text: "Superficie réelle (ha)"
+                    mode: "rectangle"
+                    input_filter: "float"
+                    on_text: root.calculer_prix_total()
+                    theme_text_color: "Custom"
+                    text_color_normal: 1, 1, 1, 1
+                    text_color_focus: 1, 1, 1, 1
+                    hint_text_color_normal: 0.8, 0.8, 0.8, 1
+                    line_color_normal: 0.6, 0.6, 0.6, 1
+                    line_color_focus: 1, 1, 1, 1
+
+                MDTextField:
+                    id: prix_unitaire
+                    hint_text: "Prix unitaire (DH/ha)"
+                    mode: "rectangle"
+                    input_filter: "float"
+                    on_text: root.calculer_prix_total()
+                    theme_text_color: "Custom"
+                    text_color_normal: 1, 1, 1, 1
+                    text_color_focus: 1, 1, 1, 1
+                    hint_text_color_normal: 0.8, 0.8, 0.8, 1
+                    line_color_normal: 0.6, 0.6, 0.6, 1
+                    line_color_focus: 1, 1, 1, 1
+
+                MDLabel:
+                    id: prix_total_label
+                    text: "Prix total : 0.00 DH"
+                    halign: "center"
+                    theme_text_color: "Custom"
+                    text_color: 1, 1, 1, 1
+                    bold: True
+
+                MDTextField:
+                    id: avance
+                    hint_text: "Avance (DH)"
+                    mode: "rectangle"
+                    input_filter: "float"
+                    on_text: root.update_reste()
+                    theme_text_color: "Custom"
+                    text_color_normal: 1, 1, 1, 1
+                    text_color_focus: 1, 1, 1, 1
+                    hint_text_color_normal: 0.8, 0.8, 0.8, 1
+                    line_color_normal: 0.6, 0.6, 0.6, 1
+                    line_color_focus: 1, 1, 1, 1
+
+                MDLabel:
+                    id: reste
+                    text: "Reste : 0.00 DH"
+                    halign: "center"
+                    theme_text_color: "Custom"
+                    text_color: 1, 1, 1, 1
+                    bold: True
+
+                # ===== SECTION LOCALISATION =====
+                MDLabel:
+                    text: "Localisation"
+                    theme_text_color: "Custom"
+                    text_color: 1, 1, 1, 1
+                    font_style: "H6"
+                    bold: True
+
+                MDTextField:
+                    id: province
+                    hint_text: "Province"
+                    mode: "rectangle"
+                    theme_text_color: "Custom"
+                    text_color_normal: 1, 1, 1, 1
+                    text_color_focus: 1, 1, 1, 1
+                    hint_text_color_normal: 0.8, 0.8, 0.8, 1
+                    line_color_normal: 0.6, 0.6, 0.6, 1
+                    line_color_focus: 1, 1, 1, 1
+
+                MDTextField:
+                    id: commune
+                    hint_text: "Commune"
+                    mode: "rectangle"
+                    theme_text_color: "Custom"
+                    text_color_normal: 1, 1, 1, 1
+                    text_color_focus: 1, 1, 1, 1
+                    hint_text_color_normal: 0.8, 0.8, 0.8, 1
+                    line_color_normal: 0.6, 0.6, 0.6, 1
+                    line_color_focus: 1, 1, 1, 1
+
+                MDTextField:
+                    id: commentaire
+                    hint_text: "Commentaire / Lien Maps"
+                    mode: "rectangle"
+                    theme_text_color: "Custom"
+                    text_color_normal: 1, 1, 1, 1
+                    text_color_focus: 1, 1, 1, 1
+                    hint_text_color_normal: 0.8, 0.8, 0.8, 1
+                    line_color_normal: 0.6, 0.6, 0.6, 1
+                    line_color_focus: 1, 1, 1, 1
+
+                # ===== SECTION TELEPILOTE =====
+                MDLabel:
+                    text: "Télépilote"
+                    theme_text_color: "Custom"
+                    text_color: 1, 1, 1, 1
+                    font_style: "H6"
+                    bold: True
+
+                MDTextField:
+                    id: telepilote
+                    hint_text: "Télépilote"
+                    mode: "rectangle"
+                    theme_text_color: "Custom"
+                    text_color_normal: 1, 1, 1, 1
+                    text_color_focus: 1, 1, 1, 1
+                    hint_text_color_normal: 0.8, 0.8, 0.8, 1
+                    line_color_normal: 0.6, 0.6, 0.6, 1
+                    line_color_focus: 1, 1, 1, 1
+
+                MDTextField:
+                    id: telepilote_telephone
+                    hint_text: "Téléphone télépilote"
+                    mode: "rectangle"
+                    theme_text_color: "Custom"
+                    text_color_normal: 1, 1, 1, 1
+                    text_color_focus: 1, 1, 1, 1
+                    hint_text_color_normal: 0.8, 0.8, 0.8, 1
+                    line_color_normal: 0.6, 0.6, 0.6, 1
+                    line_color_focus: 1, 1, 1, 1
+
+                # ===== SECTION FRAIS TELEPILOTE =====
+                MDLabel:
+                    text: "Frais télépilote"
+                    theme_text_color: "Custom"
+                    text_color: 1, 1, 1, 1
+                    font_style: "H6"
+                    bold: True
+
+                MDTextField:
+                    id: frais_deplacement
+                    hint_text: "Frais de déplacement"
+                    mode: "rectangle"
+                    theme_text_color: "Custom"
+                    text_color_normal: 1, 1, 1, 1
+                    text_color_focus: 1, 1, 1, 1
+                    hint_text_color_normal: 0.8, 0.8, 0.8, 1
+                    line_color_normal: 0.6, 0.6, 0.6, 1
+                    line_color_focus: 1, 1, 1, 1
+
+                MDTextField:
+                    id: frais_carburant
+                    hint_text: "Frais de carburant"
+                    mode: "rectangle"
+                    theme_text_color: "Custom"
+                    text_color_normal: 1, 1, 1, 1
+                    text_color_focus: 1, 1, 1, 1
+                    hint_text_color_normal: 0.8, 0.8, 0.8, 1
+                    line_color_normal: 0.6, 0.6, 0.6, 1
+                    line_color_focus: 1, 1, 1, 1
+
+                MDTextField:
+                    id: frais_essence
+                    hint_text: "Frais essence (générateur)"
+                    mode: "rectangle"
+                    theme_text_color: "Custom"
+                    text_color_normal: 1, 1, 1, 1
+                    text_color_focus: 1, 1, 1, 1
+                    hint_text_color_normal: 0.8, 0.8, 0.8, 1
+                    line_color_normal: 0.6, 0.6, 0.6, 1
+                    line_color_focus: 1, 1, 1, 1
+
+                MDTextField:
+                    id: frais_autres
+                    hint_text: "Autres frais"
+                    mode: "rectangle"
+                    theme_text_color: "Custom"
+                    text_color_normal: 1, 1, 1, 1
+                    text_color_focus: 1, 1, 1, 1
+                    hint_text_color_normal: 0.8, 0.8, 0.8, 1
+                    line_color_normal: 0.6, 0.6, 0.6, 1
+                    line_color_focus: 1, 1, 1, 1
+
+                MDLabel:
+                    id: status_label
+                    text: "Statut : En attente"
+                    halign: "center"
+                    theme_text_color: "Custom"
+                    text_color: 1, 1, 1, 1
+                    bold: True
+
+        MDBoxLayout:
+            size_hint_y: None
+            height: dp(60)
+            padding: dp(20)
+            spacing: dp(10)
+            md_bg_color: 0.05, 0.1, 0.2, 1
+
+            Widget:
+
+            MDRaisedButton:
+                text: "Enregistrer les modifications"
+                on_release: root.save_mission()
+                md_bg_color: 0.2, 0.6, 1, 1
+                text_color: 1, 1, 1, 1
+
+            MDRaisedButton:
+                text: "Télécharger facture"
+                pos_hint: {"center_x": 0.5}
+                size_hint: None, None
+                size: "220dp", "48dp"
+                md_bg_color: 0.2, 0.6, 1, 1
+                text_color: 1, 1, 1, 1
+                on_release: root.download_pdf()

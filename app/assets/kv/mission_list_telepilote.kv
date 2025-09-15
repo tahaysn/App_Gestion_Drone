@@ -1,0 +1,58 @@
+<MissionListTelepiloteScreen>:
+    name: "mission_list_telepilote"
+
+    MDBoxLayout:
+        orientation: "vertical"
+        padding: dp(10)
+        spacing: dp(10)
+        md_bg_color: 0.05, 0.05, 0.1, 1
+
+        MDTopAppBar:
+            title: "Mes Missions à Valider"
+            elevation: 4
+            md_bg_color: 0.05, 0.05, 0.1, 1
+            text_color: 1, 1, 1, 1
+            left_action_items: [["arrow-left", lambda x: root.go_back()]]
+
+        MDBoxLayout:
+            orientation: "horizontal"
+            size_hint_y: None
+            height: dp(40)
+            padding: dp(10)
+
+            MDIconButton:
+                icon: "chevron-left"
+                on_release: root.previous_month()
+                theme_text_color: "Custom"
+                text_color: 1, 1, 1, 1
+
+            MDLabel:
+                id: current_month_year
+                text: root.current_month_year
+                halign: "center"
+                font_style: "H5"
+                theme_text_color: "Custom"
+                text_color: 1, 1, 1, 1
+
+            MDIconButton:
+                icon: "chevron-right"
+                on_release: root.next_month()
+                theme_text_color: "Custom"
+                text_color: 1, 1, 1, 1
+
+        GridLayout:
+            id: calendar_layout
+            cols: 7
+            spacing: dp(8)
+            padding: dp(10)
+            size_hint_y: None
+            height: self.minimum_height
+
+        ScrollView:
+            MDBoxLayout:
+                id: mission_detail_box
+                orientation: "vertical"
+                spacing: dp(10)
+                padding: dp(10)
+                size_hint_y: None
+                height: self.minimum_height

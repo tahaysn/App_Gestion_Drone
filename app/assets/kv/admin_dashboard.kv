@@ -1,0 +1,22 @@
+<AdminDashboard>:
+    MDBoxLayout:
+        orientation: "vertical"
+        md_bg_color: 0.05, 0.1, 0.2, 1
+
+        MDTopAppBar:
+            title: "Dashboard"
+            elevation: 4
+            left_action_items: [["arrow-left", lambda x: root.go_back()]]
+            right_action_items: [["logout", lambda x: app.logout()]]
+            md_bg_color: 0.05, 0.1, 0.2, 1
+            specific_text_color: 1, 1, 1, 1
+
+        ScrollView:
+
+            MDGridLayout:
+                id: grid
+                cols: 2
+                spacing: dp(20)
+                padding: dp(20)
+                size_hint_y: None
+                height: self.minimum_height  # ← important pour aligner en haut

@@ -1,0 +1,230 @@
+<ValidateMissionScreen>:
+    name: "validate_mission"
+
+    BoxLayout:
+        orientation: 'vertical'
+
+        canvas.before:
+            Color:
+                rgba: 0.05, 0.05, 0.1, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        MDTopAppBar:
+            title: "Validation de la Mission"
+            elevation: 10
+            md_bg_color: 0.08, 0.08, 0.08, 1  # plus foncé
+            left_action_items: [["arrow-left", lambda x: root.go_back()]]
+            md_bg_color: 0.05, 0.1, 0.2, 1
+            specific_text_color: 1, 1, 1, 1
+
+        ScrollView:
+            MDBoxLayout:
+                orientation: 'vertical'
+                padding: dp(20)
+                spacing: dp(25)
+                size_hint_y: None
+                height: self.minimum_height
+
+                GridLayout:
+                    cols: 2
+                    spacing: dp(12)
+                    row_default_height: dp(40)
+                    row_force_default: True
+                    size_hint_y: None
+                    height: self.minimum_height
+
+                    MDLabel:
+                        text: "Drone:"
+                        halign: "right"
+                        theme_text_color: "Custom"
+                        text_color: 1, 1, 1, 1
+                    MDLabel:
+                        id: drone
+                        text: ""
+                        halign: "left"
+                        theme_text_color: "Custom"
+                        text_color: 1, 1, 1, 1
+
+                    MDLabel:
+                        text: "Taux application:"
+                        halign: "right"
+                        theme_text_color: "Custom"
+                        text_color: 1, 1, 1, 1
+                    MDLabel:
+                        id: taux_application
+                        text: ""
+                        halign: "left"
+                        theme_text_color: "Custom"
+                        text_color: 1, 1, 1, 1
+
+                    MDLabel:
+                        text: "Prix unitaire:"
+                        halign: "right"
+                        theme_text_color: "Custom"
+                        text_color: 1, 1, 1, 1
+                    MDLabel:
+                        id: prix_unitaire
+                        text: ""
+                        halign: "left"
+                        theme_text_color: "Custom"
+                        text_color: 1, 1, 1, 1
+
+                    MDLabel:
+                        text: "Prix total:"
+                        halign: "right"
+                        theme_text_color: "Custom"
+                        text_color: 1, 1, 1, 1
+                    MDLabel:
+                        id: prix_total
+                        text: ""
+                        halign: "left"
+                        theme_text_color: "Custom"
+                        text_color: 1, 1, 1, 1
+
+                    MDLabel:
+                        text: "Superficie estimée:"
+                        halign: "right"
+                        theme_text_color: "Custom"
+                        text_color: 1, 1, 1, 1
+                    MDLabel:
+                        id: superficie_estimee
+                        text: ""
+                        halign: "left"
+                        theme_text_color: "Custom"
+                        text_color: 1, 1, 1, 1
+
+                    MDLabel:
+                        text: "Superficie réelle:"
+                        halign: "right"
+                        theme_text_color: "Custom"
+                        text_color: 1, 1, 1, 1
+                    MDTextField:
+                        id: superficie_reelle
+                        hint_text: "Ex: 10.5"
+                        mode: "fill"
+                        fill_color: 0.18, 0.18, 0.22, 1
+                        text_color: 1, 1, 1, 1
+                        hint_text_color: 0.6, 0.6, 0.6, 1
+                        line_color_focus: 0.3, 0.6, 1, 1
+                        on_text: root.on_superficie_changed(self, self.text)
+                        radius: [10]
+                        size_hint_x: 1
+
+                    MDLabel:
+                        text: "Date début:"
+                        halign: "right"
+                        theme_text_color: "Custom"
+                        text_color: 1, 1, 1, 1
+                    MDRaisedButton:
+                        id: date_debut
+                        text: ""
+                        on_release: root.show_date_picker("date_debut")
+                        md_bg_color: 0.2, 0.5, 0.8, 1
+                        text_color: 1, 1, 1, 1
+                        size_hint_x: 1
+
+                    MDLabel:
+                        text: "Date fin:"
+                        halign: "right"
+                        theme_text_color: "Custom"
+                        text_color: 1, 1, 1, 1
+                    MDRaisedButton:
+                        id: date_fin
+                        text: ""
+                        on_release: root.show_date_picker("date_fin")
+                        md_bg_color: 0.2, 0.5, 0.8, 1
+                        text_color: 1, 1, 1, 1
+                        size_hint_x: 1
+
+                MDSeparator:
+                    height: dp(1)
+
+                MDLabel:
+                    text: "[b]💸 Caisse - Frais du télépilote[/b]"
+                    markup: True
+                    font_style: "H6"
+                    halign: "center"
+                    theme_text_color: "Custom"
+                    text_color: 1, 1, 1, 1
+
+                GridLayout:
+                    cols: 2
+                    spacing: dp(12)
+                    row_default_height: dp(40)
+                    row_force_default: True
+                    size_hint_y: None
+                    height: self.minimum_height
+
+                    MDLabel:
+                        text: "Frais déplacement:"
+                        halign: "right"
+                        theme_text_color: "Custom"
+                        text_color: 1, 1, 1, 1
+                    MDTextField:
+                        id: frais_deplacement
+                        hint_text: "Ex: 100 MAD"
+                        mode: "fill"
+                        fill_color: 0.18, 0.18, 0.22, 1
+                        text_color: 1, 1, 1, 1
+                        hint_text_color: 0.6, 0.6, 0.6, 1
+                        radius: [10]
+
+                    MDLabel:
+                        text: "Frais carburant:"
+                        halign: "right"
+                        theme_text_color: "Custom"
+                        text_color: 1, 1, 1, 1
+                    MDTextField:
+                        id: frais_carburant
+                        hint_text: "Ex: 50 MAD"
+                        mode: "fill"
+                        fill_color: 0.18, 0.18, 0.22, 1
+                        text_color: 1, 1, 1, 1
+                        hint_text_color: 0.6, 0.6, 0.6, 1
+                        radius: [10]
+
+                    MDLabel:
+                        text: "Frais essence:"
+                        halign: "right"
+                        theme_text_color: "Custom"
+                        text_color: 1, 1, 1, 1
+                    MDTextField:
+                        id: frais_essence
+                        hint_text: "Ex: 30 MAD"
+                        mode: "fill"
+                        fill_color: 0.18, 0.18, 0.22, 1
+                        text_color: 1, 1, 1, 1
+                        hint_text_color: 0.6, 0.6, 0.6, 1
+                        radius: [10]
+
+                    MDLabel:
+                        text: "Autres frais:"
+                        halign: "right"
+                        theme_text_color: "Custom"
+                        text_color: 1, 1, 1, 1
+                    MDTextField:
+                        id: autres_frais
+                        hint_text: "Ex: Nourriture, péages..."
+                        mode: "fill"
+                        fill_color: 0.18, 0.18, 0.22, 1
+                        text_color: 1, 1, 1, 1
+                        hint_text_color: 0.6, 0.6, 0.6, 1
+                        radius: [10]
+
+                Widget:
+
+                MDRaisedButton:
+                    text: "✅ Valider la mission"
+                    pos_hint: {"center_x": 0.5}
+                    md_bg_color: 0, 0.6, 0.2, 1
+                    text_color: 1, 1, 1, 1
+                    on_release: root.validate()
+
+                MDRaisedButton:
+                    text: "Annuler"
+                    pos_hint: {"center_x": 0.5}
+                    md_bg_color: 0.8, 0.2, 0.2, 1
+                    text_color: 1, 1, 1, 1
+                    on_release: root.clear_form()

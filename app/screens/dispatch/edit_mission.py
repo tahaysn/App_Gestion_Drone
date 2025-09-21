@@ -6,6 +6,8 @@ from kivy.uix.popup import Popup
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 from kivy_garden.mapview import MapView, MapMarkerPopup
+from kivy.utils import platform
+from app.utils.pdf_generator import generate_mission_pdf
 from datetime import datetime
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
@@ -191,12 +193,12 @@ class EditMissionScreen(Screen):
                 mission.reste = mission.prix_total - avance
 
             # Champs texte libres
-            for field in ["drone", "province", "commune", "commentaire", "telepilote", "telepilote_telephone"]:
+            for field in ["drone", "province", "commune", "commentaire", "telepilote"]:
                 val = safe_str(field)
                 if val is not None:
                     setattr(mission, field, val)
 
-            # ✅ Frais
+            # Frais
             for field in ["frais_deplacement", "frais_carburant", "frais_essence", "frais_autres"]:
                 val = safe_str(field)
                 if val is not None:
@@ -209,12 +211,23 @@ class EditMissionScreen(Screen):
 
             # ✅ Sauvegarde en base
             session.commit()
+            session.refresh(mission)
 
-            # ✅ Mettre à jour self.current_mission pour éviter les valeurs obsolètes dans le PDF
+            # 🔍 Récupération du téléphone client
+            client_tel = mission.client.telephone if mission.client else None
+
+            # 🔍 Récupération du téléphone télépilote via User
+            telepilote_tel = None
+            if mission.telepilote:
+                telepilote_user = session.query(User).filter(User.username == mission.telepilote).first()
+                if telepilote_user:
+                    telepilote_tel = telepilote_user.telephone
+
+            # ✅ Mettre à jour current_mission
             self.current_mission.update({
                 "date": mission.date,
                 "client_nom": mission.client_nom,
-                "client_telephone": mission.client_telephone,
+                "client_telephone": client_tel,
                 "drone": mission.drone,
                 "taux": mission.taux,
                 "superficie": mission.superficie,
@@ -227,7 +240,7 @@ class EditMissionScreen(Screen):
                 "commune": mission.commune,
                 "commentaire": mission.commentaire,
                 "telepilote": mission.telepilote,
-                "telepilote_telephone": mission.telepilote_telephone,
+                "telepilote_telephone": telepilote_tel,   # ✅ FIX correct
                 "frais_deplacement": mission.frais_deplacement,
                 "frais_carburant": mission.frais_carburant,
                 "frais_essence": mission.frais_essence,
@@ -344,75 +357,30 @@ class EditMissionScreen(Screen):
     def open_telepilote_menu(self):
         pass
 
-    def generate_mission_pdf(mission_data, filename="mission.pdf"):
-        c = canvas.Canvas(filename, pagesize=A4)
-        width, height = A4
-        c.setFont("Helvetica", 12)
-        y = height - 50
-        for key, value in mission_data.items():
-            c.drawString(50, y, f"{key} : {value}")
-            y -= 20
-            if y < 50:
-                c.showPage()
-                y = height - 50
-        c.save()
-        return filename
+
 
     def download_pdf(self):
-        from reportlab.pdfgen import canvas
-        from reportlab.lib.pagesizes import A4
-        from kivy.utils import platform
+    # Mettre à jour les champs fixes depuis les widgets
+        self.current_mission["telepilote"] = self.ids.telepilote.text
+        self.current_mission["telepilote_telephone"] = self.ids.telepilote_telephone.text
 
-        mission = self.current_mission
-
-        # ✅ Calcul du reste si absent
-        reste_val = mission.get("reste")
+        # Calcul reste si absent
+        reste_val = self.current_mission.get("reste")
         if reste_val is None:
             try:
-                prix_total = (mission.get("superficie_reelle") or 0) * (mission.get("prix_unitaire") or 0)
-                reste_val = prix_total - (mission.get("avance") or 0)
+                prix_total = (self.current_mission.get("superficie_reelle") or 0) * (self.current_mission.get("prix_unitaire") or 0)
+                reste_val = prix_total - (self.current_mission.get("avance") or 0)
             except Exception:
                 reste_val = 0
+        self.current_mission["reste"] = reste_val
 
-        pdf_data = {
-            "Date": mission.get("date"),
-            "Client": mission.get("client_nom"),
-            "Téléphone Client": mission.get("client_telephone"),
-            "Drone": mission.get("drone"),
-            "Taux": mission.get("taux"),
-            "Superficie": mission.get("superficie"),
-            "Superficie réelle": mission.get("superficie_reelle"),
-            "Prix unitaire": mission.get("prix_unitaire"),
-            "Avance": mission.get("avance"),
-            "Reste": reste_val,  # ✅ Toujours calculé si vide
-            "Province": mission.get("province"),
-            "Commune": mission.get("commune"),
-            "Commentaire": mission.get("commentaire"),
-            "Télépilote": mission.get("telepilote"),
-            "Télépilote Téléphone": mission.get("telepilote_telephone"),
-            "Statut": mission.get("statut")
-        }
-
-        filename = f"mission_{mission.get('id', '')}.pdf"
+        filename = f"mission_{self.current_mission.get('id', '')}.pdf"
         pdf_path = os.path.join(os.getcwd(), filename)
 
-        c = canvas.Canvas(pdf_path, pagesize=A4)
-        width, height = A4
-        c.setFont("Helvetica", 12)
-        y = height - 50
+        # Générer PDF
+        generate_mission_pdf(self.current_mission, filename=pdf_path)
 
-        for key, value in pdf_data.items():
-            if value is None:
-                value = ""
-            c.drawString(50, y, f"{key} : {value}")
-            y -= 20
-            if y < 50:
-                c.showPage()
-                c.setFont("Helvetica", 12)
-                y = height - 50
-
-        c.save()
-
+        # Ouvrir PDF
         if platform == "win":
             os.startfile(pdf_path)
         elif platform == "linux":

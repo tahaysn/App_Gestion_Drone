@@ -20,20 +20,73 @@
             orientation: "vertical"
             spacing: dp(25)
 
-            MDLabel:
-                text: "Bienvenue"
-                halign: "center"
-                font_style: "H4"
-                theme_text_color: "Custom"
-                text_color: 1, 1, 1, 1
+            MDBoxLayout:
+                orientation: "vertical"
                 size_hint_y: None
-                height: self.texture_size[1]
+                height: self.minimum_height
+                spacing: dp(10)
+                pos_hint: {"center_x": 0.5}
 
-                #Image:
-                    #source: "app/assets/images/logo.png"
-                    #size_hint: None, None
-                    #size: dp(100), dp(100)
-                    #pos_hint: {"center_x": 0.5}
+                # Conteneur pour l'icône avec effets
+                FloatLayout:
+                    size_hint: None, None
+                    size: dp(80), dp(80)
+                    pos_hint: {"center_x": 0.48, "center_y": 0.48}
+                    
+                    canvas.before:
+                        # Ombre portée subtile
+                        Color:
+                            rgba: 0, 0, 0, 0.15
+                        Ellipse:
+                            pos: self.x + dp(2), self.y - dp(2)
+                            size: dp(60), dp(60)
+                        
+                        # Cercle de fond avec bordure
+                        Color:
+                            rgba: 0.2, 0.4, 0.8, 0.1
+                        Ellipse:
+                            pos: self.x + dp(3), self.y + dp(3)
+                            size: dp(60), dp(60)
+                        
+                        # Bordure circulaire
+                        Color:
+                            rgba: 0.3, 0.6, 1, 0.3
+                        Line:
+                            circle: [self.center_x, self.center_y, dp(30)]
+                            width: dp(1.5)
+                    
+                    Image:
+                        id: drone_image
+                        size_hint: None, None
+                        size: dp(60), dp(60)
+                        pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                        allow_stretch: True
+                        keep_ratio: True
+                        angle: 0
+                        canvas.before:
+                            # Masque circulaire pour l'image
+                            StencilPush
+                            Ellipse:
+                                pos: self.pos
+                                size: self.size
+                            StencilUse
+                        canvas.after:
+                            StencilUnUse
+                            StencilPop
+                            PushMatrix
+                            Rotate:
+                                angle: self.angle
+                                origin: self.center
+                            PopMatrix
+
+                MDLabel:
+                    text: "App Missions Drone"
+                    halign: "center"
+                    font_style: "H5"
+                    theme_text_color: "Custom"
+                    text_color: 1, 1, 1, 1
+                    size_hint_y: None
+                    height: self.texture_size[1]
 
             MDTextField:
                 id: username

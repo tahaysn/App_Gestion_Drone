@@ -22,7 +22,7 @@ def add_test_users():
         test_users = [
             {
                 "username": "admin",
-                "password": "adminpass",
+                "password": "0",
                 "role": "admin"
             },
             {

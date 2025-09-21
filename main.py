@@ -7,7 +7,7 @@ def create_default_admin():
     session = SessionLocal()
 
     if not session.query(User).filter_by(username="admin").first():
-        password_hash = scrypt.hash("adminpass")
+        password_hash = scrypt.hash("0")
         admin = User(username="admin", role="admin", password_hash=password_hash)
         session.add(admin)
         session.commit()

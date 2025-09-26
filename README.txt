@@ -17,7 +17,7 @@ Elle inclut la gestion des rôles (admin, dispatch, télépilote), la création/
 
 1. **Cloner le projet** ou copier les fichiers sur votre machine :
    ```bash
-   git clone https://github.com/mon-compte/drone-gestion-app.git
+   git clone https://github.com/tahaysn/App_Gestion_Drone
    cd DroneGestionApp
 
 MYSQLdatabase:

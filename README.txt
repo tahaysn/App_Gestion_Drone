@@ -1,11 +1,9 @@
-# Drone Mission Management App
-
 Application développée avec **KivyMD**, **SQLAlchemy** et **MySQL** pour gérer les missions de drones.  
 Elle inclut la gestion des rôles (admin, dispatch, télépilote), la création/édition/validation de missions, et la visualisation des clients et paiements.
 
 ---
 
-## 🚀 Prérequis
+## Prérequis
 
 - [Python 3.11+](https://www.python.org/downloads/)
 - [MySQL Community Server](https://dev.mysql.com/downloads/mysql/)
@@ -13,13 +11,13 @@ Elle inclut la gestion des rôles (admin, dispatch, télépilote), la création/
 
 ---
 
-## 📦 Installation
+## Installation
 
 1. **Cloner le projet** ou copier les fichiers sur votre machine :
    ```bash
    git clone https://github.com/tahaysn/App_Gestion_Drone
    cd DroneGestionApp
-
+2. **Realiser cette structure de base de donnees MYSQL
 MYSQLdatabase:
 +--------------------+
 | Database           |
